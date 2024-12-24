@@ -21,7 +21,9 @@ License: BSD (see LICENSE.md for details).
 
 from markdown.test_tools import TestCase
 from markdown.extensions.codehilite import CodeHiliteExtension, CodeHilite
+from markdown import extensions, treeprocessors
 import os
+import xml.etree.ElementTree as etree
 
 try:
     import pygments  # noqa
@@ -29,9 +31,9 @@ try:
 except ImportError:
     has_pygments = False
 
-# The version required by the tests is the version specified and installed in the 'pygments' tox env.
-# In any environment where the PYGMENTS_VERSION environment variable is either not defined or doesn't
-# match the version of Pygments installed, all tests which rely in pygments will be skipped.
+# The version required by the tests is the version specified and installed in the `pygments` tox environment.
+# In any environment where the `PYGMENTS_VERSION` environment variable is either not defined or doesn't
+# match the version of Pygments installed, all tests which rely in Pygments will be skipped.
 required_pygments_version = os.environ.get('PYGMENTS_VERSION', '')
 
 
@@ -54,7 +56,7 @@ class TestCodeHiliteClass(TestCase):
 
     def test_codehilite_defaults(self):
         if has_pygments:
-            # Odd result as no lang given and a single comment is not enough for guessing.
+            # Odd result as no `lang` given and a single comment is not enough for guessing.
             expected = (
                 '<div class="codehilite"><pre><span></span><code><span class="err"># A Code Comment</span>\n'
                 '</code></pre></div>'
@@ -98,7 +100,7 @@ class TestCodeHiliteClass(TestCase):
 
     def test_codehilite_set_lang(self):
         if has_pygments:
-            # Note an extra `<span class="x">` is added to end of code block when lang explicitly set.
+            # Note an extra `<span class="x">` is added to end of code block when `lang` explicitly set.
             # Compare with expected output for `test_guess_lang`. Not sure why this happens.
             expected = (
                 '<div class="codehilite"><pre><span></span><code><span class="cp">&lt;?php</span> '
@@ -122,7 +124,7 @@ class TestCodeHiliteClass(TestCase):
                 '</code></pre></div>'
             )
         else:
-            # Note that without pygments there is no way to check that the language name is bad.
+            # Note that without Pygments there is no way to check that the language name is bad.
             expected = (
                 '<pre class="codehilite"><code class="language-unkown">'
                 '&lt;?php print(&quot;Hello World&quot;); ?&gt;\n'
@@ -273,7 +275,7 @@ class TestCodeHiliteClass(TestCase):
                 '</code></pre></div>'
             )
         else:
-            # TODO: Implement linenostart for no-pygments. Will need to check what JS libs look for.
+            # TODO: Implement `linenostart` for no-Pygments. Will need to check what JavaScript libraries look for.
             expected = (
                 '<pre class="codehilite"><code class="language-text linenums">plain text\n'
                 '</code></pre>'
@@ -374,7 +376,7 @@ class TestCodeHiliteExtension(TestCase):
 
     def testBasicCodeHilite(self):
         if has_pygments:
-            # Odd result as no lang given and a single comment is not enough for guessing.
+            # Odd result as no `lang` given and a single comment is not enough for guessing.
             expected = (
                 '<div class="codehilite"><pre><span></span><code><span class="err"># A Code Comment</span>\n'
                 '</code></pre></div>'
@@ -645,7 +647,7 @@ class TestCodeHiliteExtension(TestCase):
 
     def testUnknownOption(self):
         if has_pygments:
-            # Odd result as no lang given and a single comment is not enough for guessing.
+            # Odd result as no `lang` given and a single comment is not enough for guessing.
             expected = (
                 '<div class="codehilite"><pre><span></span><code><span class="err"># A Code Comment</span>\n'
                 '</code></pre></div>'
@@ -762,3 +764,22 @@ class TestCodeHiliteExtension(TestCase):
                 )
             ]
         )
+
+    def testDoesntCrashWithEmptyCodeTag(self):
+        expected = '<h1>Hello</h1>\n<pre><code></code></pre>'
+        self.assertMarkdownRenders(
+            '# Hello',
+            expected,
+            extensions=[CodeHiliteExtension(), _ExtensionThatAddsAnEmptyCodeTag()]
+        )
+
+
+class _ExtensionThatAddsAnEmptyCodeTag(extensions.Extension):
+    def extendMarkdown(self, md):
+        md.treeprocessors.register(_AddCodeTagTreeprocessor(), 'add-code-tag', 40)
+
+
+class _AddCodeTagTreeprocessor(treeprocessors.Treeprocessor):
+    def run(self, root: etree.Element):
+        pre = etree.SubElement(root, 'pre')
+        etree.SubElement(pre, 'code')

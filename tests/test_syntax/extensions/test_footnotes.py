@@ -12,7 +12,7 @@ Maintained for a few years by Yuri Takhteyev (http://www.freewisdom.org).
 Currently maintained by Waylan Limberg (https://github.com/waylan),
 Dmitry Shachnev (https://github.com/mitya57) and Isaac Muse (https://github.com/facelessuser).
 
-Copyright 2007-2018 The Python Markdown Project (v. 1.7 and later)
+Copyright 2007-2023 The Python Markdown Project (v. 1.7 and later)
 Copyright 2004, 2005, 2006 Yuri Takhteyev (v. 0.2-1.6b)
 Copyright 2004 Manfred Stienstra (the original version)
 
@@ -266,7 +266,7 @@ class TestFootnotes(TestCase):
         )
 
     def test_backlink_text(self):
-        """Test backlink configuration."""
+        """Test back-link configuration."""
 
         self.assertMarkdownRenders(
             'paragraph[^1]\n\n[^1]: A Footnote',
@@ -302,7 +302,7 @@ class TestFootnotes(TestCase):
         )
 
     def test_backlink_title(self):
-        """Test backlink title configuration without placeholder."""
+        """Test back-link title configuration without placeholder."""
 
         self.assertMarkdownRenders(
             'paragraph[^1]\n\n[^1]: A Footnote',

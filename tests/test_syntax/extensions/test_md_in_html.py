@@ -13,7 +13,7 @@ Maintained for a few years by Yuri Takhteyev (http://www.freewisdom.org).
 Currently maintained by Waylan Limberg (https://github.com/waylan),
 Dmitry Shachnev (https://github.com/mitya57) and Isaac Muse (https://github.com/facelessuser).
 
-Copyright 2007-2018 The Python Markdown Project (v. 1.7 and later)
+Copyright 2007-2023 The Python Markdown Project (v. 1.7 and later)
 Copyright 2004, 2005, 2006 Yuri Takhteyev (v. 0.2-1.6b)
 Copyright 2004 Manfred Stienstra (the original version)
 
@@ -32,7 +32,7 @@ class TestMarkdownInHTMLPostProcessor(TestCase):
 
     def test_stash_to_string(self):
         # There should be no known cases where this actually happens so we need to
-        # forcefully pass an etree Element to the method to ensure proper behavior.
+        # forcefully pass an `etree` `Element` to the method to ensure proper behavior.
         element = Element('div')
         element.text = 'Foo bar.'
         md = Markdown(extensions=['md_in_html'])
@@ -1208,7 +1208,7 @@ class TestMdInHTML(TestCase):
 
 
 def load_tests(loader, tests, pattern):
-    ''' Ensure TestHTMLBlocks doesn't get run twice by excluding it here. '''
+    """ Ensure `TestHTMLBlocks` doesn't get run twice by excluding it here. """
     suite = TestSuite()
     for test_class in [TestDefaultwMdInHTML, TestMdInHTML, TestMarkdownInHTMLPostProcessor]:
         tests = loader.loadTestsFromTestCase(test_class)

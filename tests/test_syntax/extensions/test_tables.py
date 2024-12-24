@@ -12,7 +12,7 @@ Maintained for a few years by Yuri Takhteyev (http://www.freewisdom.org).
 Currently maintained by Waylan Limberg (https://github.com/waylan),
 Dmitry Shachnev (https://github.com/mitya57) and Isaac Muse (https://github.com/facelessuser).
 
-Copyright 2007-2018 The Python Markdown Project (v. 1.7 and later)
+Copyright 2007-2023 The Python Markdown Project (v. 1.7 and later)
 Copyright 2004, 2005, 2006 Yuri Takhteyev (v. 0.2-1.6b)
 Copyright 2004 Manfred Stienstra (the original version)
 
@@ -26,7 +26,7 @@ from markdown.extensions.tables import TableExtension
 class TestTableBlocks(TestCase):
 
     def test_empty_cells(self):
-        """Empty cells (nbsp)."""
+        """Empty cells (`nbsp`)."""
 
         text = """
    | Second Header
