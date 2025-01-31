@@ -31,9 +31,9 @@ try:
 except ImportError:
     has_pygments = False
 
-# The version required by the tests is the version specified and installed in the 'pygments' tox env.
-# In any environment where the PYGMENTS_VERSION environment variable is either not defined or doesn't
-# match the version of Pygments installed, all tests which rely in pygments will be skipped.
+# The version required by the tests is the version specified and installed in the `pygments` tox environment.
+# In any environment where the `PYGMENTS_VERSION` environment variable is either not defined or doesn't
+# match the version of Pygments installed, all tests which rely in Pygments will be skipped.
 required_pygments_version = os.environ.get('PYGMENTS_VERSION', '')
 
 
@@ -389,6 +389,48 @@ class TestFencedCode(TestCase):
                 '''
                 <pre id="&quot;foo"><code class="language-&quot;weird" bar="&quot;&gt;baz"># Some python code
                 </code></pre>
+                '''
+            ),
+            extensions=['fenced_code', 'attr_list']
+        )
+
+    def testFencedCodeCurlyInAttrs(self):
+        self.assertMarkdownRenders(
+            self.dedent(
+                '''
+                ``` { data-test="{}" }
+                # Some python code
+                ```
+                '''
+            ),
+            self.dedent(
+                '''
+                <pre><code data-test="{}"># Some python code
+                </code></pre>
+                '''
+            ),
+            extensions=['fenced_code', 'attr_list']
+        )
+
+    def testFencedCodeMismatchedCurlyInAttrs(self):
+        self.assertMarkdownRenders(
+            self.dedent(
+                '''
+                ``` { data-test="{}" } }
+                # Some python code
+                ```
+                ```
+                test
+                ```
+                '''
+            ),
+            self.dedent(
+                '''
+                <p>``` { data-test="{}" } }</p>
+                <h1>Some python code</h1>
+                <pre><code></code></pre>
+                <p>test
+                ```</p>
                 '''
             ),
             extensions=['fenced_code', 'attr_list']

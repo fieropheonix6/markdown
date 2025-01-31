@@ -3,95 +3,9 @@ title: Change Log
 Python-Markdown Change Log
 =========================
 
-July 15, 2022: version 3.4.1 (a bug-fix release).
+!!! note
 
-* Fix an import issue with `importlib.util` (#1274).
-
-July 15, 2022: version 3.4 ([Notes](release-3.4.md)).
-
-May 5, 2022: version 3.3.7 (a bug-fix release).
-
-* Disallow square brackets in reference link ids (#1209).
-* Retain configured `pygments_style` after first code block (#1240).
-* Ensure fenced code attributes are properly escaped (#1247).
-
-Nov 17, 2021: version 3.3.6 (a bug-fix release).
-
-* Fix a dependency issue (#1195, #1196).
-
-Nov 16, 2021: version 3.3.5 (a bug-fix release).
-
-* Make the `slugify_unicode` function not remove diacritical marks (#1118).
-* Fix `[toc]` detection when used with `nl2br` extension (#1160).
-* Re-use compiled regex for block level checks (#1169).
-* Don't process shebangs in fenced code blocks when using CodeHilite (#1156).
-* Improve email address validation for Automatic Links (#1165).
-* Ensure `<summary>` tags are parsed correctly (#1079).
-* Support Python 3.10 (#1124).
-
-Feb 24, 2021: version 3.3.4 (a bug-fix release).
-
-* Properly parse unclosed tags in code spans (#1066).
-* Properly parse processing instructions in md_in_html (#1070).
-* Properly parse code spans in md_in_html (#1069).
-* Preserve text immediately before an admonition (#1092).
-* Simplified regex for HTML placeholders (#928) addressing (#932).
-* Ensure `permalinks` and `anchorlinks` are not restricted by `toc_depth` (#1107).
-* Fix corner cases with lists under admonitions (#1102).
-
-Oct 25, 2020: version 3.3.3 (a bug-fix release).
-
-* Unify all block-level tags (#1047).
-* Fix issue where some empty elements would have text rendered as `None` when using `md_in_html` (#1049).
-* Avoid catastrophic backtracking in `hr` regex (#1055).
-* Fix `hr` HTML handling (#1053).
-
-Oct 19, 2020: version 3.3.2 (a bug-fix release).
-
-* Properly parse inline HTML in md_in_html (#1040 & #1045).
-* Avoid crashing when md_in_html fails (#1040).
-
-Oct 12, 2020: version 3.3.1 (a bug-fix release).
-
-* Correctly parse raw `script` and `style` tags (#1036).
-* Ensure consistent class handling by `fenced_code` and `codehilite` (#1032).
-
-Oct 6, 2020: version 3.3 ([Notes](release-3.3.md)).
-
-May 8, 2020: version 3.2.2 (a bug-fix release).
-
-* Add `checklinks` tox environment to ensure all links in documentation are good.
-* Refactor extension API documentation (#729).
-* Load entry_points (for extensions) only once using `importlib.metadata`.
-* Do not double escape entities in TOC.
-* Correctly report if an extension raises a `TypeError` (#939).
-* Raise a `KeyError` when attempting to delete a nonexistent key from the
-  extension registry (#939).
-* Remove import of `packaging` (or `pkg_resources` fallback) entirely.
-* Remove `setuptools` as a run-time dependency (`install_required`).
-
-Feb 12, 2020: Released version 3.2.1 (a bug-fix release).
-
-* The `name` property in `toc_tokens` from the TOC extension now
-  escapes HTML special characters (`<`, `>`, and `&`).
-
-Feb 7, 2020: Released version 3.2 ([Notes](release-3.2.md)).
-
-May 20, 2019: Released version 3.1.1 (a bug-fix release).
-
-* Fixed import failure in `setup.py` when the source directory is not
-  on `sys.path` (#823).
-* Prefer public `packaging` module to pkg_resources' private copy of
-  it (#825).
-
-Mar 25, 2019: Released version 3.1 ([Notes](release-3.1.md)).
-
-Sept 28, 2018: Released version 3.0.1 (a bug-fix release).
-
-* Brought back the `version` and `version_info` variables (#709).
-* Added support for hexadecimal HTML entities (#712).
-
-Sept 21, 2018: Released version 3.0 ([Notes](release-3.0.md)).
+    This is an archive of the changelog prior to the release of version 3.0. See the [current changelog](../changelog.md) for up-to-date details.
 
 Jan 4, 2018: Released version 2.6.11 (a bug-fix release). Added a new
 `BACKLINK-TITLE` option to the footnote extension so that non-English
@@ -171,10 +85,10 @@ August 18 2008: Reorganized directory structure. Added a 'docs' directory
 and moved all extensions into a 'markdown-extensions' package.
 Added additional documentation and a few bug fixes. (v2.0-beta)
 
-August 4 2008: Updated included extensions to ElementTree. Added a
+August 4 2008: Updated included extensions to `ElementTree`. Added a
 separate command line script. (v2.0-alpha)
 
-July 2008: Switched from home-grown NanoDOM to ElementTree and
+July 2008: Switched from home-grown `NanoDOM` to `ElementTree` and
 various related bugs (thanks Artem Yunusov).
 
 June 2008: Fixed issues with nested inline patterns and cleaned
@@ -299,7 +213,7 @@ syntax in headers (e.g. links) and got the lists to use p-tags
 correctly (v. 0.8)
 
 Aug. 29, 2005: Added flexible tabs, fixed a few small issues, added
-basic support for footnotes.  Got rid of xml.dom.minidom and added
+basic support for footnotes.  Got rid of `xml.dom.minidom` and added
 pretty-printing. (v. 0.7)
 
 Aug. 13, 2005: Fixed a number of small bugs in order to conform to the

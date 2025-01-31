@@ -12,7 +12,7 @@ Maintained for a few years by Yuri Takhteyev (http://www.freewisdom.org).
 Currently maintained by Waylan Limberg (https://github.com/waylan),
 Dmitry Shachnev (https://github.com/mitya57) and Isaac Muse (https://github.com/facelessuser).
 
-Copyright 2007-2018 The Python Markdown Project (v. 1.7 and later)
+Copyright 2007-2023 The Python Markdown Project (v. 1.7 and later)
 Copyright 2004, 2005, 2006 Yuri Takhteyev (v. 0.2-1.6b)
 Copyright 2004 Manfred Stienstra (the original version)
 
@@ -82,6 +82,17 @@ class TestCodeBlocks(TestCase):
             self.dedent(
                 """
                 <pre><code>&lt;foo &amp; bar&gt;
+                </code></pre>
+                """
+            )
+        )
+
+    def test_codeblock_second_line(self):
+        self.assertMarkdownRenders(
+            '\n    Code on the second line',
+            self.dedent(
+                """
+                <pre><code>Code on the second line
                 </code></pre>
                 """
             )

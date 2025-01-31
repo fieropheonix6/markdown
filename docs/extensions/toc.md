@@ -80,6 +80,8 @@ the following object at `md.toc_tokens`:
         'level': 1,
         'id': 'header-1',
         'name': 'Header 1',
+        'html': 'Header 1',
+        'data-toc-label': '',
         'children': [
             {'level': 2, 'id': 'header-2', 'name': 'Header 2', 'children':[]}
         ]
@@ -90,6 +92,11 @@ the following object at `md.toc_tokens`:
 Note that the `level` refers to the `hn` level. In other words, `<h1>` is level
 `1` and `<h2>` is level `2`, etc. Be aware that improperly nested levels in the
 input may result in odd nesting of the output.
+
+`name` is the sanitized value which would also be used as a label for the HTML
+version of the Table of Contents. `html` contains the fully rendered HTML
+content of the heading and has not been sanitized in any way. This may be used
+with your own custom sanitation to create custom table of contents.
 
 ### Custom Labels
 
@@ -131,6 +138,10 @@ attribute list to provide a cleaner URL when linking to the header. If the ID is
 not manually defined, it is always derived from the text of the header, never
 from the `data-toc-label` attribute.
 
+The value of the `data-toc-label` attribute is sanitized and stripped of any HTML
+tags. However, `toc_tokens` will contain the raw content under
+`data-toc-label`.
+
 Usage
 -----
 
@@ -150,6 +161,9 @@ The following options are provided to configure the output:
 
 * **`title`**:
     Title to insert in the Table of Contents' `<div>`. Defaults to `None`.
+
+* **`title_class`**:
+    CSS class used for the title contained in the Table of Contents. Defaults to `toctitle`.
 
 * **`toc_class`**:
     CSS class(es) used for the `<div>` containing the Table of Contents. Defaults to `toc`.
@@ -174,6 +188,15 @@ The following options are provided to configure the output:
 * **`permalink_title`**:
     Title attribute of the permanent link. Defaults to `Permanent link`.
 
+* **`permalink_leading`**:
+    Set to `True` if the extension should generate leading permanent links.
+    Default is `False`.
+
+    Leading permanent links are placed at the start of the header tag,
+    before any header content. The default `permalink` behavior (when
+    `permalink_leading` is unset or set to `False`) creates trailing
+    permanent links, which are placed at the end of the header content.
+
 * **`baselevel`**:
     Base level for headers. Defaults to `1`.
 
@@ -195,7 +218,7 @@ The following options are provided to configure the output:
 * **`slugify`**:
     Callable to generate anchors.
 
-    Default: `markdown.extensions.headerid.slugify`
+    Default: `markdown.extensions.toc.slugify`
 
     In order to use a different algorithm to define the id attributes, define  and
     pass in a callable which takes the following two arguments:
@@ -206,7 +229,7 @@ The following options are provided to configure the output:
     The callable must return a string appropriate for use in HTML `id` attributes.
 
     An alternate version of the default callable supporting Unicode strings is also
-    provided as `markdown.extensions.headerid.slugify_unicode`.
+    provided as `markdown.extensions.toc.slugify_unicode`.
 
 * **`separator`**:
     Word separator. Character which replaces white space in id. Defaults to "`-`".

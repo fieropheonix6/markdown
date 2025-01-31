@@ -12,7 +12,7 @@ Maintained for a few years by Yuri Takhteyev (http://www.freewisdom.org).
 Currently maintained by Waylan Limberg (https://github.com/waylan),
 Dmitry Shachnev (https://github.com/mitya57) and Isaac Muse (https://github.com/facelessuser).
 
-Copyright 2007-2020 The Python Markdown Project (v. 1.7 and later)
+Copyright 2007-2023 The Python Markdown Project (v. 1.7 and later)
 Copyright 2004, 2005, 2006 Yuri Takhteyev (v. 0.2-1.6b)
 Copyright 2004 Manfred Stienstra (the original version)
 
@@ -23,16 +23,59 @@ from markdown.test_tools import TestCase
 
 
 class TestAttrList(TestCase):
-
     maxDiff = None
+    default_kwargs = {'extensions': ['attr_list']}
 
-    # TODO: Move the rest of the attr_list tests here.
+    # TODO: Move the rest of the `attr_list` tests here.
 
-    def test_empty_list(self):
+    def test_empty_attr_list(self):
         self.assertMarkdownRenders(
             '*foo*{ }',
-            '<p><em>foo</em>{ }</p>',
-            extensions=['attr_list']
+            '<p><em>foo</em>{ }</p>'
+        )
+
+    def test_curly_after_inline(self):
+        self.assertMarkdownRenders(
+            '*inline*{.a} } *text*{.a }}',
+            '<p><em class="a">inline</em> } <em class="a">text</em>}</p>'
+        )
+
+    def test_extra_eq_gets_ignored_inside_curly_inline(self):
+        # Undesired behavior but kept for historic compatibility.
+        self.assertMarkdownRenders(
+            '*inline*{data-test="x" =a} *text*',
+            '<p><em data-test="x">inline</em> <em>text</em></p>'
+        )
+
+    def test_curly_after_block(self):
+        self.assertMarkdownRenders(
+            '# Heading {.a} }',
+            '<h1>Heading {.a} }</h1>'
+        )
+
+    def test_curly_in_single_quote(self):
+        self.assertMarkdownRenders(
+            "# Heading {data-test='{}'}",
+            '<h1 data-test="{}">Heading</h1>'
+        )
+
+    def test_curly_in_double_quote(self):
+        self.assertMarkdownRenders(
+            '# Heading {data-test="{}"}',
+            '<h1 data-test="{}">Heading</h1>'
+        )
+
+    def test_unclosed_quote_ignored(self):
+        # Undesired behavior but kept for historic compatibility.
+        self.assertMarkdownRenders(
+            '# Heading {foo="bar}',
+            '<h1 foo="&quot;bar">Heading</h1>'
+        )
+
+    def test_backslash_escape_value(self):
+        self.assertMarkdownRenders(
+            '# `*Foo*` { id="\\*Foo\\*" }',
+            '<h1 id="*Foo*"><code>*Foo*</code></h1>'
         )
 
     def test_table_td(self):
